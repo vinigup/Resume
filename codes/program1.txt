@@ -1,0 +1,65 @@
+// CPP program to find an element replacement
+// of which makes the array elements consecutive.
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int findElement(int arr[], int n)
+{
+    sort(arr, arr+n);
+  
+    // Making a series starting from first element
+    // and adding 1 to every element.    
+    int mismatch_count1 = 0, res;
+    int next_element = arr[n-1] - n + 1;
+    for (int i=0; i<n-1; i++) {
+       if (binary_search(arr, arr+n, next_element) == 0)
+       {
+          res = arr[0];  
+          mismatch_count1++;
+       }
+        next_element++;
+    }   
+ 
+    // If only one mismatch is found.
+    if (mismatch_count1 == 1)
+        return res;
+ 
+    // If no mismatch found, elements are
+    // already consecutive.
+    if (mismatch_count1 == 0)  
+        return 0;
+ 
+    // Making a series starting from last element
+    // and subtracting 1 to every element. 
+    int mismatch_count2 = 0;
+    next_element = arr[0] + n - 1;
+    for (int i=n-1; i>=1; i--) {
+       if (binary_search(arr, arr+n, next_element) == 0)
+       {
+          res = arr[n-1];  
+          mismatch_count2++;
+       }      
+       next_element--;
+    }
+         
+    // If only one mismatch is found.
+    if (mismatch_count2 == 1)
+      return res;
+       
+    return -1;  
+}
+ 
+// Driver code
+int main()
+{
+    int arr[] =  {7, 5, 12, 8} ;
+    int n = sizeof(arr)/sizeof(arr[0]);
+    int res = findElement(arr,n);
+    if (res == -1)
+      cout << "Answer does not exist";
+    else if (res == 0)
+      cout << "Elements are already consecutive";
+    else
+      cout << res;
+    return 0;
+}
